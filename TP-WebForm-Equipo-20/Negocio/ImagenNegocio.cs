@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Negocio
-{
+{  
     public class ImagenNegocio
     {
         public List<Imagen> listar(int ID)
