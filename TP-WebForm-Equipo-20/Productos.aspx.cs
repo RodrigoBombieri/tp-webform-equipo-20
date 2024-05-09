@@ -1,4 +1,6 @@
-﻿using System;
+﻿using dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,9 +11,18 @@ namespace TP_WebForm_Equipo_20
 {
     public partial class Productos : System.Web.UI.Page
     {
+        public bool filtroAvanzado { get; set; }
+        public List<Articulo> listaProductos { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            listaProductos = negocio.listarConImagenes();
+            filtroAvanzado = false;
+            if (!IsPostBack)
+            {
+                repRepeater.DataSource = listaProductos;
+                repRepeater.DataBind();
+            }
         }
 
         protected void txtFiltro_TextChanged(object sender, EventArgs e)

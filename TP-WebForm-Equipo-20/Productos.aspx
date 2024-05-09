@@ -57,19 +57,25 @@
         </div>
         <% } %>
     </div>
-
-    <asp:GridView ID="dgvProductos" DataKeyNames="Id" OnSelectedIndexChanged="dgvProductos_SelectedIndexChanged"
-        CssClass="table" AutoGenerateColumns="false" OnPageIndexChanging="dgvProductos_PageIndexChanging"
-        AllowPaging="true" PageSize="5" runat="server"> 
-        <Columns>
-            <asp:BoundField DataField="Codigo" HeaderText="Codigo" />
-            <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-            <asp:BoundField DataField="Descripcion" HeaderText="Descripcion" />
-            <asp:BoundField DataField="Precio" HeaderText="Precio" />
-            <asp:BoundField DataField="Marca" HeaderText="Marca" />
-            <asp:BoundField DataField="Categoria" HeaderText="Categoria" />
-            <asp:BoundField DataField="Precio" HeaderText="Precio" />
-            <asp:CommandField ShowSelectButton="true" SelectText="Ver Detalles" HeaderText="Accion" />
-        </Columns>
-    </asp:GridView>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <asp:Repeater ID="repRepeater" runat="server">
+            <ItemTemplate>
+                <div class="col">
+                    <div class="card">
+                        <%--<img src="<%#Eval("UrlImagen") %>" class="card-img-top mx-auto d-block" alt="Imagen" />--%>
+                        <div class="card-body">
+                            <h5 class="card-title"><%#Eval("Nombre") %></h5>
+                            <p class="card-text">Código: <%#Eval("Codigo") %></p>
+                            <p class="card-text">Descripción: <%#Eval("Descripcion") %></p>
+                            <p class="card-text">Marca: <%#Eval("Marca.Descripcion") %></p>
+                            <p class="card-text">Categoría: <%#Eval("Categoria.Descripcion") %></p>
+                            <p class="card-text">Precio: $<%#Eval("Precio") %></p>
+                            <a href="DetalleArticulo.aspx?id=<%#Eval("Id") %>" class="btn btn-primary">Ver Detalle</a>
+                            <a href="Carrito.aspx?id=<%#Eval("Id") %>" class="btn btn-primary">Agregar al Carrito</a>
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
+    </div>
 </asp:Content>
