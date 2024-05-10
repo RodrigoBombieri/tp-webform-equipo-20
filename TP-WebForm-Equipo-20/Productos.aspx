@@ -4,6 +4,7 @@
     <style>
         /*Estilos específicos*/
     </style>
+
     <h1>Productos </h1>
     <div class="row">
         <div class="col-6">
@@ -62,7 +63,25 @@
             <ItemTemplate>
                 <div class="col">
                     <div class="card">
-                        <%--<img src="<%#Eval("UrlImagen") %>" class="card-img-top mx-auto d-block" alt="Imagen" />--%>
+                        <div id="carouselExampleControls_<%# Container.ItemIndex %>" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <asp:Repeater ID="rptImages" runat="server" DataSource='<%# Eval("Imagenes") %>'>
+                                    <ItemTemplate>
+                                        <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
+                                            <img src='<%# Eval("UrlImagen") %>' class="d-block w-100 " alt="...">
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title"><%#Eval("Nombre") %></h5>
                             <p class="card-text">Código: <%#Eval("Codigo") %></p>
