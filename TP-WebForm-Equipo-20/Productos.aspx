@@ -2,7 +2,32 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        /*Estilos específicos*/
+        
+        .card{
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .card-img-top{
+            width: 200px;
+            height: 200px;
+        }
+
+        .card-body{
+            padding: 20px;
+        }
+
+        .card-title{
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .carousel-control-prev-icon, .carousel-control-next-icon{
+            background-color: black;
+        }
+
     </style>
 
     <h1>Productos </h1>
@@ -68,7 +93,7 @@
                                 <asp:Repeater ID="rptImages" runat="server" DataSource='<%# Eval("Imagenes") %>'>
                                     <ItemTemplate>
                                         <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
-                                            <img src='<%# Eval("UrlImagen") %>' class="d-block w-100 " alt="...">
+                                            <img src='<%# Eval("UrlImagen") %>' class="d-block w-100 card-img-top" alt="...">
                                         </div>
                                     </ItemTemplate>
                                 </asp:Repeater>

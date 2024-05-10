@@ -16,60 +16,96 @@ namespace TP_WebForm_Equipo_20
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            filtroAvanzado = false;
             if (!IsPostBack)
             {
-                CargarProductos();
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                Session.Add("listaArticulos", negocio.listarConImagenes());
+                repRepeater.DataSource = Session["listaArticulos"];
+                repRepeater.DataBind();
             }
-        }
-
-        private void CargarProductos()
-        {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            listaProductos = negocio.listarConImagenes();
-
-            // Inicializar las imágenes para cada producto
-            foreach (var producto in listaProductos)
-            {
-                if (producto.UrlImagenes != null)
-                {
-                    // Crear una lista de objetos Imagen a partir de las URLs de imagen
-                    producto.Imagenes = producto.UrlImagenes.Select(url => new Imagen { UrlImagen = url }).ToList();
-                }
-            }
-            repRepeater.DataSource = listaProductos;
-            repRepeater.DataBind();
         }
 
 
         protected void txtFiltro_TextChanged(object sender, EventArgs e)
         {
+            try
+            {
+                List<Articulo> lista = (List<Articulo>)Session["listaArticulos"];
+                List<Articulo> listaFiltrada = lista.FindAll(k => k.Nombre.ToLower().Contains(txtFiltro.Text.ToLower()) || k.Codigo.ToLower().Contains(txtFiltro.Text.ToLower()) || k.Descripcion.ToLower().Contains(txtFiltro.Text.ToLower()));
+                repRepeater.DataSource = listaFiltrada;
+                repRepeater.DataBind();
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
         }
 
         protected void chkFiltroAvanzado_CheckedChanged(object sender, EventArgs e)
         {
+            try
+            {
+                filtroAvanzado = chkFiltroAvanzado.Checked;
+                txtFiltro.Enabled = !filtroAvanzado;
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
         }
 
         protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                ddlCriterio.Items.Clear();
+                if(ddlCampo.SelectedItem.ToString() == "Precio")
+                {
+                    ddlCriterio.Items.Add("Mayor a");
+                    ddlCriterio.Items.Add("Menor a");
+                    ddlCriterio.Items.Add("Igual a");
+                }
+                else
+                {
+                    ddlCriterio.Items.Add("Contiene");
+                    ddlCriterio.Items.Add("Empieza con");
+                    ddlCriterio.Items.Add("Termina con");
+                }
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
 
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
+                {
+                    repRepeater.DataSource = negocio.listarConImagenes();
+                }
+                else
+                {
+                    repRepeater.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(), ddlCriterio.SelectedItem.ToString(), txtFiltroAvanzado.Text);
+                }
+
+                repRepeater.DataBind();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
-        protected void dgvProductos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void dgvProductos_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-
-        }
 
 
     }
