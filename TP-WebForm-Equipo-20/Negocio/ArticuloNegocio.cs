@@ -57,7 +57,6 @@ namespace Negocio
             }
         }
 
-
         public List<Articulo> listarConImagenes()
         {
             AccesoDatos datos = new AccesoDatos();
