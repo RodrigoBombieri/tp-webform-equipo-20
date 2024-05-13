@@ -28,6 +28,31 @@
             background-color: black;
         }
 
+        .card-text{
+            margin-bottom: 10px;
+        }
+
+        .btn-primary{
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover{
+            background-color: #0056b3;
+        }
+
+        a {
+            display:block;
+            text-align:center;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
     </style>
 
     <h1>Productos </h1>
@@ -72,6 +97,7 @@
                     <asp:Label ID="lblFiltroAvanzado" Text="Filtro" runat="server" />
                     <asp:TextBox ID="txtFiltroAvanzado" CssClass="form-control" runat="server" />
                 </div>
+                    <asp:Label ID="lblValidarFiltro" Text="" runat="server" ForeColor="Red" />
             </div>
         </div>
         <div class="row">
@@ -93,7 +119,7 @@
                                 <asp:Repeater ID="rptImages" runat="server" DataSource='<%# Eval("Imagenes") %>'>
                                     <ItemTemplate>
                                         <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
-                                            <img src='<%# Eval("UrlImagen") %>' class="d-block w-100 card-img-top" alt="...">
+                                            <img src='<%# Eval("UrlImagen") %>' class="d-block mx-auto card-img-top" alt="...">
                                         </div>
                                     </ItemTemplate>
                                 </asp:Repeater>

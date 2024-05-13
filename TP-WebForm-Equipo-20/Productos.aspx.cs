@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -17,8 +18,10 @@ namespace TP_WebForm_Equipo_20
         protected void Page_Load(object sender, EventArgs e)
         {
             filtroAvanzado = false;
+            lblValidarFiltro.Text = "";
             if (!IsPostBack)
             {
+
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 Session.Add("listaArticulos", negocio.listarConImagenes());
                 repRepeater.DataSource = Session["listaArticulos"];
@@ -82,11 +85,34 @@ namespace TP_WebForm_Equipo_20
             }
         }
 
+        private bool validarFiltro()
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            if (ddlCampo.SelectedItem.ToString() == "Precio")
+            {
+                if (txtFiltroAvanzado.Text.ToString() == "")
+                {
+                    return false;
+                    
+                }
+                else if (!double.TryParse(txtFiltroAvanzado.Text, out double precio))
+                {
+                    lblValidarFiltro.Text = "El precio debe ser un número";
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
+                if (validarFiltro())
+                    return;
 
                 if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
                 {
@@ -105,6 +131,7 @@ namespace TP_WebForm_Equipo_20
                 throw ex;
             }
         }
+
 
 
 
