@@ -11,7 +11,8 @@ namespace TP_WebForm_Equipo_20
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ddlMarca.Items.Add("Marca1");
+            ddlMarca.Items.Add("Marca2");
         }
     }
 }
