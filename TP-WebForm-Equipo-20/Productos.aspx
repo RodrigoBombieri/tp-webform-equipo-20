@@ -1,37 +1,37 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Productos.aspx.cs" Inherits="TP_WebForm_Equipo_20.Productos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>        
-        .card{
+    <style>
+        .card {
             border: 1px solid #ccc;
             border-radius: 8px;
             overflow: hidden;
         }
 
-        .card-img-top{
+        .card-img-top {
             width: 200px;
             height: 200px;
         }
 
-        .card-body{
+        .card-body {
             padding: 20px;
         }
 
-        .card-title{
+        .card-title {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
         }
 
-        .carousel-control-prev-icon, .carousel-control-next-icon{
+        .carousel-control-prev-icon, .carousel-control-next-icon {
             background-color: black;
         }
 
-        .card-text{
+        .card-text {
             margin-bottom: 10px;
         }
 
-        .btn-primary{
+        .btn-primary {
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -40,18 +40,17 @@
             cursor: pointer;
         }
 
-        .btn-primary:hover{
-            background-color: #0056b3;
-        }
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
 
         a {
-            display:block;
-            text-align:center;
+            display: block;
+            text-align: center;
             margin-top: 10px;
             color: #007bff;
             text-decoration: none;
         }
-
     </style>
 
     <h1>Productos </h1>
@@ -96,7 +95,7 @@
                     <asp:Label ID="lblFiltroAvanzado" Text="Filtro" runat="server" />
                     <asp:TextBox ID="txtFiltroAvanzado" CssClass="form-control" runat="server" />
                 </div>
-                    <asp:Label ID="lblValidarFiltro" Text="" runat="server" ForeColor="Red" />
+                <asp:Label ID="lblValidarFiltro" Text="" runat="server" ForeColor="Red" />
             </div>
         </div>
         <div class="row">
@@ -123,7 +122,7 @@
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="prev">
+                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>

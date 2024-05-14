@@ -11,10 +11,11 @@ namespace TP_WebForm_Equipo_20
 {
     public partial class DetalleArticulo : System.Web.UI.Page
     {
+        public Articulo articulo = new Articulo();
         protected void Page_Load(object sender, EventArgs e)
         {
             string id = "-1";
-            Articulo articulo = new Articulo();
+            
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
             if (!IsPostBack)
             {
@@ -40,6 +41,9 @@ namespace TP_WebForm_Equipo_20
                             ddlMarca.SelectedIndex = articulo.Marca.ID;
                             ddlCategoria.SelectedIndex = articulo.Categoria.ID;
                             txtPrecio.Text = articulo.Precio.ToString();
+
+                            //rptImages.DataSource = articulo.Imagenes;
+                            //rptImages.DataBind();
                         }
                         else
                         {

@@ -5,6 +5,10 @@
 
     <div class="row">
         <div class="col-6">
+            <img src="<%:articulo.Imagenes[0].UrlImagen %>" class="img-fluid" alt="...">
+                
+       </div>
+        <div class="col-6">
             <div class="mb-3">
                 <label for="txtId" class="form-label">Id</label>
                 <asp:TextBox runat="server" ID="txtId" CssClass="form-control" />
@@ -16,7 +20,6 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label for="txtDescripcion" class="form-label">Descripción</label>
-                    <%--<textarea class="form-control" id="txtDescripcion" rows="3"></textarea>--%>
                     <asp:TextBox runat="server" ID="txtDescripcion" TextMode="MultiLine" CssClass="form-control" />
                 </div>
             </div>
