@@ -26,7 +26,7 @@
                         <asp:Repeater ID="repImagenes" runat="server">
                             <ItemTemplate>
                                 <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
-                                    <img src='<%# Eval("UrlImagen") %>' class="d-block mx-auto card-img-top" alt="...">
+                                    <img src='<%# Eval("UrlImagen") %>' class="d-block mx-auto card-img-top" alt="Problemas al cargar imagen" onerror="this.onerror=null; this.src='https://img.freepik.com/vector-premium/no-hay-foto-disponible-icono-vector-simbolo-imagen-predeterminado-imagen-proximamente-sitio-web-o-aplicacion-movil_87543-10615.jpg?w=826';">
                                 </div>
                             </ItemTemplate>
                         </asp:Repeater>

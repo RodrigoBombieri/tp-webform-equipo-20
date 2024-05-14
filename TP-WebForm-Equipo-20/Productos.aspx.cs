@@ -14,7 +14,7 @@ namespace TP_WebForm_Equipo_20
     {
         public bool filtroAvanzado { get; set; }
         public List<Articulo> listaProductos { get; set; }
-
+        public List<Imagen> listaImagenes { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             filtroAvanzado = false;
