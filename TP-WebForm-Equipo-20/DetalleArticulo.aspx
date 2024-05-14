@@ -16,7 +16,8 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label for="txtDescripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="txtDescripcion" rows="3"></textarea>
+                    <%--<textarea class="form-control" id="txtDescripcion" rows="3"></textarea>--%>
+                    <asp:TextBox runat="server" ID="txtDescripcion" TextMode="MultiLine" CssClass="form-control" />
                 </div>
             </div>
             <div class="mb-3">
@@ -25,11 +26,11 @@
             </div>
             <div class="mb-3">
                 <label for="ddlMarca" class="form-label">Marca</label>
-                <asp:DropDownList ID="ddlMarca" CssClass="form-select" runat="server"></asp:DropDownList>
+                <asp:DropDownList ID="ddlMarca" CssClass="form-select" DataTextField="Descripcion" DataValueField="Id" runat="server"></asp:DropDownList>
             </div>
             <div class="mb-3">
                 <label for="ddlCategoria" class="form-label">Categoria</label>
-                <asp:DropDownList ID="ddlCategoria" CssClass="form-select" runat="server"></asp:DropDownList>
+                <asp:DropDownList ID="ddlCategoria" CssClass="form-select" DataTextField="Descripcion" DataValueField="Id" runat="server"></asp:DropDownList>
             </div>
             <div class="mb-3">
                 <label for="txtPrecio" class="form-label">Precio</label>
