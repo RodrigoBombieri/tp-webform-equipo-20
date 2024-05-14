@@ -15,13 +15,13 @@ namespace TP_WebForm_Equipo_20
     {
 
         /// <summary>
-        /// txtId control.
+        /// repImagenes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtId;
+        protected global::System.Web.UI.WebControls.Repeater repImagenes;
 
         /// <summary>
         /// txtNombre control.
@@ -30,7 +30,16 @@ namespace TP_WebForm_Equipo_20
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombre;
+        protected global::System.Web.UI.WebControls.Label txtNombre;
+
+        /// <summary>
+        /// txtId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label txtId;
 
         /// <summary>
         /// txtCodigo control.
@@ -39,25 +48,25 @@ namespace TP_WebForm_Equipo_20
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCodigo;
+        protected global::System.Web.UI.WebControls.Label txtCodigo;
 
         /// <summary>
-        /// ddlMarca control.
+        /// txtMarca control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMarca;
+        protected global::System.Web.UI.WebControls.Label txtMarca;
 
         /// <summary>
-        /// ddlCategoria control.
+        /// txtCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCategoria;
+        protected global::System.Web.UI.WebControls.Label txtCategoria;
 
         /// <summary>
         /// txtPrecio control.
@@ -66,6 +75,15 @@ namespace TP_WebForm_Equipo_20
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPrecio;
+        protected global::System.Web.UI.WebControls.Label txtPrecio;
+
+        /// <summary>
+        /// txtDescripcion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDescripcion;
     }
 }

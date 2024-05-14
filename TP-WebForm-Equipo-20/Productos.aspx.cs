@@ -28,8 +28,6 @@ namespace TP_WebForm_Equipo_20
                 repRepeater.DataBind();
             }
         }
-
-
         protected void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             try

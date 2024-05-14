@@ -125,6 +125,52 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public Articulo buscar(string id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Articulo aux = new Articulo();
+            List<Imagen> imagenes = new List<Imagen>();
+            ImagenNegocio negocioImagen = new ImagenNegocio();
+            try
+            {
+                //datos.setearConsulta("SELECT TOP 1 * FROM ARTICULOS ORDER BY ID DESC");
+                datos.setearConsulta("select A.ID, A.Codigo, A.Nombre, A.Descripcion, A.Precio, M.ID as IDMarca, " +
+                    "M.Descripcion as Marca, C.ID as IDCategoria, C.Descripcion as Categoria from ARTICULOS as A " +
+                    "inner join MARCAS as M on A.IDMarca = M.ID inner join CATEGORIAS as C on A.IDCategoria = C.ID " +
+                    " where A.ID = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    
+                    if (!(datos.Lector["ID"] is DBNull))
+                        aux.ID = (int)datos.Lector["ID"];
+                    aux.Codigo = (string)datos.Lector["Codigo"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    aux.Marca = new Marca();
+                    aux.Marca.ID = (int)datos.Lector["IDMarca"];
+                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];
+                    aux.Categoria = new Categoria();
+                    aux.Categoria.ID = (int)datos.Lector["IDCategoria"];
+                    aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
+
+                    aux.Imagenes = negocioImagen.listar(aux.ID);
+                }
+                return aux;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public int buscarUltimo()
         {
             AccesoDatos datos = new AccesoDatos();
