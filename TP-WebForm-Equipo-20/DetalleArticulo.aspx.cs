@@ -42,8 +42,8 @@ namespace TP_WebForm_Equipo_20
                             ddlCategoria.SelectedIndex = articulo.Categoria.ID;
                             txtPrecio.Text = articulo.Precio.ToString();
 
-                            //rptImages.DataSource = articulo.Imagenes;
-                            //rptImages.DataBind();
+                            repImagenes.DataSource = articulo.Imagenes;
+                            repImagenes.DataBind();
                         }
                         else
                         {
@@ -60,12 +60,8 @@ namespace TP_WebForm_Equipo_20
                 {
                     //MessageBox.Show(ex.ToString());
                     //MessageBox.Show("Error al cargar ventana.");
-                }
-                
+                }                
             }
-            
-            //ddlMarca.Items.Add("Marca1");
-            //ddlMarca.Items.Add("Marca2");
         }
     }
 }

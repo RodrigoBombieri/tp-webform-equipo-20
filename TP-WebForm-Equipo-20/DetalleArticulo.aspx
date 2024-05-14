@@ -5,9 +5,27 @@
 
     <div class="row">
         <div class="col-6">
-            <img src="<%:articulo.Imagenes[0].UrlImagen %>" class="img-fluid" alt="...">
-                
-       </div>
+            <%-- <img src="<%:articulo.Imagenes[0].UrlImagen %>" class="img-fluid" alt="...">--%>
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <asp:Repeater ID="repImagenes" runat="server">
+                        <ItemTemplate>
+                            <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
+                                <img src='<%# Eval("UrlImagen") %>' class="d-block mx-auto card-img-top" alt="...">
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
         <div class="col-6">
             <div class="mb-3">
                 <label for="txtId" class="form-label">Id</label>
