@@ -12,54 +12,38 @@ namespace TP_WebForm_Equipo_20
     public partial class DetalleArticulo : System.Web.UI.Page
     {
         public Articulo articulo = new Articulo();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-            string id = "-1";
+            string id;
             
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
             if (!IsPostBack)
             {
-                MarcaNegocio marcaNegocio = new MarcaNegocio();
-                CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+                articulo = null;                
                 try
                 {
-                    ddlMarca.DataSource = marcaNegocio.listar();
-                    ddlMarca.DataBind();
-                    ddlCategoria.DataSource = categoriaNegocio.listar();
-                    ddlCategoria.DataBind();
-
                     if (Request.QueryString["id"] != null)
                     {
                         id = Request.QueryString["id"].ToString();
                         articulo = articuloNegocio.buscar(id);
-                        if (articulo.ID != -1)
+                        if (articulo != null)
                         {
                             txtId.Text = articulo.ID.ToString();
                             txtNombre.Text = articulo.Nombre.ToString();
                             txtDescripcion.Text = articulo.Descripcion.ToString();
                             txtCodigo.Text = articulo.Codigo.ToString();
-                            ddlMarca.SelectedIndex = articulo.Marca.ID;
-                            ddlCategoria.SelectedIndex = articulo.Categoria.ID;
+                            txtMarca.Text = articulo.Marca.Descripcion;
+                            txtCategoria.Text = articulo.Categoria.Descripcion;
                             txtPrecio.Text = articulo.Precio.ToString();
 
                             repImagenes.DataSource = articulo.Imagenes;
                             repImagenes.DataBind();
                         }
-                        else
-                        {
-                            //articulo no encontrado;
-
-                        }
-                    }
-                    else
-                    {
-                        //articulo no encontrado;
-                    }                    
+                    }                
                 }
                 catch (Exception ex)
                 {
-                    //MessageBox.Show(ex.ToString());
-                    //MessageBox.Show("Error al cargar ventana.");
                 }                
             }
         }
