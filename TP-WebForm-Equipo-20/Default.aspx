@@ -1,44 +1,150 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TP_WebForm_Equipo_20._Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TP_WebForm_Equipo_20.Productos" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-    <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="aspnetTitle">TP Web [Carrito de Compras]</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-            <p><a href="http://www.asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-        </section>
+        .card-img-top {
+            width: 200px;
+            height: 200px;
+        }
 
-        <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-                A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>
-                    NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
-                <p>
-                    You can easily find a web hosting company that offers the right mix of features and price for your applications.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
-                </p>
-            </section>
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            background-color: black;
+        }
+
+        .card-text {
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+
+    <h1>Productos </h1>
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3">
+                <asp:Label Text="Filtrar" runat="server" />
+                <asp:TextBox ID="txtFiltro" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltro_TextChanged" />
+            </div>
         </div>
-    </main>
+        <div class="col-6" style="display: flex; flex-direction: column; justify-content: flex-end;">
+            <div class="mb-3">
+                <asp:CheckBox ID="chkFiltroAvanzado" Text="Filtro Avanzado" AutoPostBack="true" OnCheckedChanged="chkFiltroAvanzado_CheckedChanged" runat="server" />
+            </div>
+        </div>
 
+        <%if (chkFiltroAvanzado.Checked)
+            {%>
+        <div class="row">
+            <div class="col-3">
+                <div class="mb-3">
+                    <asp:Label ID="lblCampo" Text="Campo" runat="server" />
+                    <asp:DropDownList ID="ddlCampo" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
+                        <asp:ListItem Text="Precio" />
+                        <asp:ListItem Text="Nombre" />
+                        <asp:ListItem Text="Descripcion" />
+                    </asp:DropDownList>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <asp:Label ID="lblCriterio" Text="Criterio" runat="server" />
+                    <asp:DropDownList ID="ddlCriterio" runat="server" CssClass="form-control" AutoPostBack="true">
+                        <asp:ListItem Text="Igual a" />
+                        <asp:ListItem Text="Mayor a" />
+                        <asp:ListItem Text="Menor a" />
+                    </asp:DropDownList>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <asp:Label ID="lblFiltroAvanzado" Text="Filtro" runat="server" />
+                    <asp:TextBox ID="txtFiltroAvanzado" CssClass="form-control" runat="server" />
+                </div>
+                <asp:Label ID="lblValidarFiltro" Text="" runat="server" ForeColor="Red" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="mb-3">
+                    <asp:Button ID="btnBuscar" Text="Buscar" runat="server" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <asp:Repeater ID="repRepeater" runat="server">
+            <ItemTemplate>
+                <div class="col">
+                    <div class="card">
+                        <div id="carouselExampleControls_<%# Container.ItemIndex %>" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <asp:Repeater ID="rptImages" runat="server" DataSource='<%# Eval("Imagenes") %>'>
+                                    <ItemTemplate>
+                                       <%-- <% listaImagenes= ((List<Imagen>)Eval("Imagenes")) %>--%>
+                                        <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
+                                            <img src='<%# Eval("UrlImagen") %>' class="d-block mx-auto card-img-top" alt="..." onerror="this.onerror=null; this.src='https://img.freepik.com/vector-premium/no-hay-foto-disponible-icono-vector-simbolo-imagen-predeterminado-imagen-proximamente-sitio-web-o-aplicacion-movil_87543-10615.jpg?w=826';">
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
+                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><%#Eval("Nombre") %></h5>
+                            <p class="card-text">Código: <%#Eval("Codigo") %></p>
+                            <p class="card-text">Descripción: <%#Eval("Descripcion") %></p>
+                            <p class="card-text">Marca: <%#Eval("Marca.Descripcion") %></p>
+                            <p class="card-text">Categoría: <%#Eval("Categoria.Descripcion") %></p>
+                            <p class="card-text">Precio: $<%#Eval("Precio") %></p>
+                            <a href="DetalleArticulo.aspx?id=<%#Eval("Id") %>" class="btn btn-primary">Ver Detalle</a>
+                            <a href="Carrito.aspx?id=<%#Eval("Id") %>" class="btn btn-primary">Agregar al Carrito</a>
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
+    </div>
 </asp:Content>

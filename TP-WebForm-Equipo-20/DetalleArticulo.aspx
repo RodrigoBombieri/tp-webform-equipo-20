@@ -79,6 +79,6 @@
         else
         {%>
     <h1>Artículo no encontrado</h1>
-    <a href="Productos.aspx">Ir a productos</a>
+    <a href="Default.aspx">Ir a productos</a>
     <%} %>
 </asp:Content>
