@@ -21,6 +21,10 @@ namespace TP_WebForm_Equipo_20
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
             if (!IsPostBack)
             {
+                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+                // Muestra la cantidad almacenada en la sesión
+                int cantidadInicial = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                carritoCantidad.Text = cantidadInicial.ToString();
                 articulo = null;                
                 try
                 {

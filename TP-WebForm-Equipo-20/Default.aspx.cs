@@ -26,6 +26,16 @@ namespace TP_WebForm_Equipo_20
                 Session.Add("listaArticulos", negocio.listarConImagenes());
                 repRepeater.DataSource = Session["listaArticulos"];
                 repRepeater.DataBind();
+                
+                // Busca el control Literal en el MasterPage
+                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+
+                if (carritoCantidad != null)
+                {
+                    // Muestra la cantidad almacenada en la sesión
+                    int cantidadInicial = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                    carritoCantidad.Text = cantidadInicial.ToString();
+                }
             }
         }
         protected void txtFiltro_TextChanged(object sender, EventArgs e)
@@ -130,8 +140,26 @@ namespace TP_WebForm_Equipo_20
             }
         }
 
+        protected void btnAgregarCarrito_Click(object sender, EventArgs e)
+        {
+            Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+            string productId = ((Button)sender).CommandArgument;
+            
+            // Incrementa la cantidad en la sesión
+            int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+            cantidadActual++;
+            Session["CantidadCarrito"] = cantidadActual;
 
+            // Actualiza el Literal con la nueva cantidad
+            carritoCantidad.Text = cantidadActual.ToString();
 
+            // Redirige a la página del carrito con el ID del producto
+            Response.Redirect("Carrito.aspx?id=" + productId);
+        }
 
+        protected void btnVerDetalle_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("DetalleArticulo.aspx?id=" + ((Button)sender).CommandArgument);
+        }
     }
 }
