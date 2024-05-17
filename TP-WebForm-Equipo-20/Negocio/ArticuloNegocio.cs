@@ -346,5 +346,19 @@ namespace Negocio
 
             }
         }
+
+        public Articulo BuscarArticuloPorId(int idArticulo)
+        {
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                return negocio.buscar(idArticulo.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
