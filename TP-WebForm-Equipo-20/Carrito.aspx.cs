@@ -111,6 +111,12 @@ namespace TP_WebForm_Equipo_20
             }
         }
 
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            lblCompra.Text = "ELIMINAR";
+        }
+
+
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Response.Redirect("Default.aspx");

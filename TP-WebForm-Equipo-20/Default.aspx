@@ -54,6 +54,7 @@
     </style>
 
     <h1>Productos </h1>
+    <%--filtrado--%>
     <div class="row">
         <div class="col-6">
             <div class="mb-3">
@@ -107,6 +108,7 @@
         </div>
         <% } %>
     </div>
+    <%--cards--%>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <asp:Repeater ID="repRepeater" runat="server">
             <ItemTemplate>
@@ -116,7 +118,6 @@
                             <div class="carousel-inner">
                                 <asp:Repeater ID="rptImages" runat="server" DataSource='<%# Eval("Imagenes") %>'>
                                     <ItemTemplate>
-                                       <%-- <% listaImagenes= ((List<Imagen>)Eval("Imagenes")) %>--%>
                                         <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
                                             <img src='<%# Eval("UrlImagen") %>' class="d-block mx-auto card-img-top" alt="..." onerror="this.onerror=null; this.src='https://img.freepik.com/vector-premium/no-hay-foto-disponible-icono-vector-simbolo-imagen-predeterminado-imagen-proximamente-sitio-web-o-aplicacion-movil_87543-10615.jpg?w=826';">
                                         </div>

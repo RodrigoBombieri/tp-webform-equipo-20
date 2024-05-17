@@ -19,7 +19,6 @@
         }
     </style>
     <h1>Carrito de compras </h1>
-
     <asp:GridView ID="dgvProductos" DataKeyNames="ID"
         CssClass="table" AutoGenerateColumns="false" OnPageIndexChanging="dgvProductos_PageIndexChanging"
         AllowPaging="true" PageSize="5" runat="server">
@@ -30,7 +29,7 @@
             <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
             <asp:TemplateField HeaderText="Acciones">
                 <ItemTemplate>
-                    <asp:LinkButton ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("ID") %>'>Eliminar</asp:LinkButton>
+                    <asp:LinkButton ID="btnEliminar" runat="server" OnClick="btnEliminar_Click" CommandName="Eliminar" CommandArgument='<%# Eval("ID") %>'>Eliminar</asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
