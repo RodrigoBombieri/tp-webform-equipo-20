@@ -31,7 +31,7 @@ namespace TP_WebForm_Equipo_20
                 {
                     // Obtiene la lista de IDs de artículos en el carrito desde la sesión
                     List<int> idArticulosCarrito = Session["Carrito"] as List<int>;
-                    if (idArticulosCarrito == null )
+                    if (idArticulosCarrito == null)
                     {
                         idArticulosCarrito = new List<int>();
                     }
@@ -60,7 +60,7 @@ namespace TP_WebForm_Equipo_20
 
                 // Obtener los detalles de los productos en el carrito
                 foreach (int idArticulo in idArticulosCarrito)
-                {                    
+                {
                     Articulo articulo = articuloNegocio.BuscarArticuloPorId(idArticulo);
                     if (articulo != null)
                     {
@@ -76,14 +76,14 @@ namespace TP_WebForm_Equipo_20
                             // Agregar el producto a la lista
                             articulo.Cantidad = 1;
                             listaProductos.Add(articulo);
-                        }                        
+                        }
                     }
                 }
 
                 // Mostrar los productos en el GridView
                 dgvProductos.DataSource = listaProductos;
                 dgvProductos.DataBind();
-                
+
                 // Calcular el precio total
                 precioTotal = listaProductos.Sum(p => p.Precio);
                 lblImporte.Text = precioTotal.ToString("C");
@@ -95,7 +95,7 @@ namespace TP_WebForm_Equipo_20
             }
         }
 
-        
+
         protected void dgvProductos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             try
@@ -119,6 +119,50 @@ namespace TP_WebForm_Equipo_20
         protected void btnComprar_Click(object sender, EventArgs e)
         {
             lblCompra.Text = "NO HAY PLATA";
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            // Cambiar el tipo de sender a LinkButton
+            // para poder acceder al CommandArgument del LinkButton
+            LinkButton btnEliminar = (LinkButton)sender;
+
+            // Obtiene el ID del producto a eliminar desde el CommandArgument del LinkButton
+            string id = btnEliminar.CommandArgument;
+            // Convierte el ID a entero
+            int idArticulo = int.Parse(id);
+
+            // Obtiene la lista de IDs de artículos en el carrito
+            List<int> idArticulosCarrito = Session["Carrito"] as List<int>;
+
+            // Eliminar el producto del carrito
+            idArticulosCarrito.Remove(idArticulo);
+            // Actualizar la lista de IDs de artículos en el carrito en la sesión
+            Session["Carrito"] = idArticulosCarrito;
+
+            /// Mostrar los productos en el carrito
+            // Si no hay productos en el carrito, redirecciona a la página principal
+            if (idArticulosCarrito.Count == 0)
+            {
+                Response.Redirect("Default.aspx", false);
+                // Restar la cantidad de productos en el carrito en el navbar
+                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                cantidadActual--;
+                Session["CantidadCarrito"] = cantidadActual;
+                carritoCantidad.Text = cantidadActual.ToString();
+            }
+            else
+            {
+                MostrarProductosEnCarrito();
+                // Restar la cantidad de productos en el carrito en el navbar
+                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                cantidadActual--;
+                Session["CantidadCarrito"] = cantidadActual;
+                carritoCantidad.Text = cantidadActual.ToString();
+            }
+
         }
     }
 }
