@@ -31,22 +31,12 @@
             <asp:TemplateField HeaderText="Quantity">
                 <ItemTemplate>
                     <div class="input-group">
-                        <asp:Button ID="btnDecrease" runat="server" CommandName="Decrease" CommandArgument='<%# Eval("ID") %>' Text="-" CssClass="btn btn-danger" />
+                        <asp:LinkButton ID="btnDecrease" runat="server" CommandName="Decrease" CommandArgument='<%# Eval("ID") %>' OnClick="btnMenos_Click" CssClass="btn btn-danger" >-</asp:LinkButton>
                         <asp:Label ID="lblQuantity" runat="server" Text="1" CssClass="form-control text-center" />                         
-                        <asp:Button ID="btnIncrease" runat="server" CommandName="Increase" CommandArgument='<%# Eval("ID") %>' Text="+" CssClass="btn btn-success" />
+                        <asp:LinkButton ID="btnIncrease" runat="server" CommandName="Increase" CommandArgument='<%# Eval("ID") %>' OnClick="btnMas_Click" CssClass="btn btn-success" >+</asp:LinkButton>
                     </div>
                 </ItemTemplate>
-            </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Quantity">
-                <ItemTemplate>
-                    <div class="input-group">
-                        <asp:Button ID="btnDecrease" runat="server" CommandName="Decrease" CommandArgument='<%# Eval("ID") %>' Text="-" CssClass="btn btn-danger" />
-                        <asp:TextBox ID="txtQuantity" runat="server" Text="1" CssClass="form-control" ReadOnly="True" />
-                        <asp:Button ID="btnIncrease" runat="server" CommandName="Increase" CommandArgument='<%# Eval("ID") %>' Text="+" CssClass="btn btn-success" />
-                    </div>
-                </ItemTemplate>
-            </asp:TemplateField>
-            
+            </asp:TemplateField>                   
             <asp:TemplateField HeaderText="Acciones">
                 <ItemTemplate>
                     <asp:LinkButton ID="btnEliminar" OnClick="btnEliminar_Click" runat="server" CssClass="btn btn-danger" CommandName="Eliminar" CommandArgument='<%# Eval("ID") %>'>Eliminar</asp:LinkButton>

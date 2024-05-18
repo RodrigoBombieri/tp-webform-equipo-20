@@ -122,6 +122,21 @@ namespace TP_WebForm_Equipo_20
             lblCompra.Text = "NO HAY PLATA";
         }
 
+        protected void btnMenos_Click(object sender, EventArgs e)
+        {
+            lblCompra.Text = "HAY PLATA";
+        }
+        protected void btnMas_Click(object sender, EventArgs e)
+        {
+            LinkButton btnMas = (LinkButton)sender;
+
+            // Obtiene el ID del producto a eliminar desde el CommandArgument del LinkButton
+            string id = btnMas.CommandArgument;
+            // Convierte el ID a entero
+            int idArticulo = int.Parse(id);
+            Articulo articuloExistente = listaProductos.Find(p => p.ID == idArticulo);
+            articuloExistente.Cantidad++;
+        }
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "Increase" || e.CommandName == "Decrease")
