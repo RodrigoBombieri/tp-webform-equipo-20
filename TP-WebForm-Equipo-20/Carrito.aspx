@@ -29,7 +29,7 @@
             <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
             <asp:TemplateField HeaderText="Acciones">
                 <ItemTemplate>
-                    <asp:LinkButton ID="btnEliminar" runat="server" OnClick="btnEliminar_Click" CommandName="Eliminar" CommandArgument='<%# Eval("ID") %>'>Eliminar</asp:LinkButton>
+                    <asp:LinkButton ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("ID") %>'>Eliminar</asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
