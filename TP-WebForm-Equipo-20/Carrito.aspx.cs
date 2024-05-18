@@ -37,6 +37,7 @@ namespace TP_WebForm_Equipo_20
                     }
 
                     // Agregar el nuevo artículo al carrito
+                    //no deberia èn caso que ya este incrementar cantidad? no lo estaria agregando de nuevo asi?
                     idArticulosCarrito.Add(idArticulo);
                     Session["Carrito"] = idArticulosCarrito;
                 }
@@ -121,6 +122,39 @@ namespace TP_WebForm_Equipo_20
             lblCompra.Text = "NO HAY PLATA";
         }
 
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Increase" || e.CommandName == "Decrease")
+            {
+                int productId = Convert.ToInt32(e.CommandArgument);
+                // Aquí debes manejar el aumento/disminución en tu fuente de datos.
+                // Actualizaremos directamente el DataTable para este ejemplo.
+
+                foreach (GridViewRow row in dgvProductos.Rows)
+                {
+                    int rowProductId = Convert.ToInt32(dgvProductos.DataKeys[row.RowIndex].Value);
+                    if (rowProductId == productId)
+                    {
+                        Label lblQuantity = row.FindControl("lblQuantity") as Label;
+                        int quantity = int.Parse(lblQuantity.Text);
+
+                        if (e.CommandName == "Increase")
+                        {
+                            quantity++;
+                        }
+                        else if (e.CommandName == "Decrease" && quantity > 1)
+                        {
+                            quantity--;
+                        }
+
+                        // Actualiza la cantidad en la base de datos o fuente de datos aquí.
+
+                        lblQuantity.Text = quantity.ToString();
+                        break;
+                    }
+                }
+            }
+        }
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             // Cambiar el tipo de sender a LinkButton
@@ -151,6 +185,7 @@ namespace TP_WebForm_Equipo_20
                 cantidadActual--;
                 Session["CantidadCarrito"] = cantidadActual;
                 carritoCantidad.Text = cantidadActual.ToString();
+                //no deberia ir directo a cero CantidadCarrito? si ya el count da cero?
             }
             else
             {
