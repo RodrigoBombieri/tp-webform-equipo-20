@@ -115,7 +115,9 @@
                     <div class="card">
                         <div id="carouselExampleControls_<%# Container.ItemIndex %>" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
+                               <%-- <% if(Eval("Imagenes") != null && ((System.Collections.Generic.List<dominio.Imagen>)Eval("Imagenes")).Count > 0) {  %>--%>
                                 <asp:Repeater ID="rptImages" runat="server" DataSource='<%# Eval("Imagenes") %>'>
+                                   
                                     <ItemTemplate>
                                         <%-- <% listaImagenes= ((List<Imagen>)Eval("Imagenes")) %>--%>
                                         <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
@@ -123,6 +125,7 @@
                                         </div>
                                     </ItemTemplate>
                                 </asp:Repeater>
+                               <%-- <% } %>--%>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
