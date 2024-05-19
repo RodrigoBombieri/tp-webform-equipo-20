@@ -23,7 +23,7 @@ namespace TP_WebForm_Equipo_20
                 cargarRepeaterCards();
 
                 // Busca el control Literal en el MasterPage
-                mostrarCantidad();
+                mostrarCantidadNavBar();
             }
         }
         protected void cargarRepeaterCards()
@@ -33,17 +33,23 @@ namespace TP_WebForm_Equipo_20
             repRepeater.DataSource = Session["listaArticulos"];
             repRepeater.DataBind();
         }
-        protected void mostrarCantidad()
+        protected void mostrarCantidadNavBar(int cant=0)
         {
             Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
 
             if (carritoCantidad != null)
             {
                 // Muestra la cantidad almacenada en la sesión
-                carritoCantidad.Text = Convert.ToString(Session["CantidadCarrito"] ?? "0");
+                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                cantidadActual += cant; 
+                carritoCantidad.Text = Convert.ToString(cantidadActual);
+                if (cant>0)
+                {
+                    Session["CantidadCarrito"] = cantidadActual;
+                }
             }
         }
-
+        
         protected void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             try
@@ -154,21 +160,29 @@ namespace TP_WebForm_Equipo_20
 
         protected void btnAgregarCarrito_Click(object sender, EventArgs e)
         {
-            Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+            mostrarCantidadNavBar(1);
             string productId = ((Button)sender).CommandArgument;
-
-            // Incrementa la cantidad en la sesión
-            int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
-            cantidadActual++;
-            Session["CantidadCarrito"] = cantidadActual;
-
-            // Actualiza el Literal con la nueva cantidad
-            carritoCantidad.Text = cantidadActual.ToString();
-
+            agregarArticulo(productId);
             //Redirige a la página del carrito con el ID del producto
             Response.Redirect("Carrito.aspx?id=" + productId);
         }
-
+        protected void agregarArticulo(string id)
+        {
+            // Verificar si se está agregando un artículo al carrito
+            // Si el ID no es nulo y es un número
+            if (!string.IsNullOrEmpty(id) && int.TryParse(id, out int idArticulo))
+            {
+                // Obtiene la lista de IDs de artículos en el carrito desde la sesión
+                List<int> listaArticulosCarrito = Session["Carrito"] as List<int>;
+                if (listaArticulosCarrito == null)
+                {
+                    listaArticulosCarrito = new List<int>();
+                }
+                // Agregar el nuevo artículo al carrito
+                listaArticulosCarrito.Add(idArticulo);
+                Session["Carrito"] = listaArticulosCarrito;
+            }
+        }
         protected void btnVerDetalle_Click(object sender, EventArgs e)
         {
             Response.Redirect("DetalleArticulo.aspx?id=" + ((Button)sender).CommandArgument);
