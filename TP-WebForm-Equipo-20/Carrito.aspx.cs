@@ -86,7 +86,7 @@ namespace TP_WebForm_Equipo_20
                 dgvProductos.DataBind();
 
                 // Calcular el precio total
-                precioTotal = listaProductos.Sum(p => p.Precio);
+                precioTotal = listaProductos.Sum(p => p.Precio * p.Cantidad);
                 lblImporte.Text = precioTotal.ToString("C");
 
             }
@@ -122,62 +122,100 @@ namespace TP_WebForm_Equipo_20
             lblCompra.Text = "NO HAY PLATA";
         }
 
-        protected void btnMenos_Click(object sender, EventArgs e)
-        {
-            lblCompra.Text = "HAY PLATA";
-        }
-        protected void btnMas_Click(object sender, EventArgs e)
-        {
-            LinkButton btnMas = (LinkButton)sender;
-
-            // Obtiene el ID del producto a eliminar desde el CommandArgument del LinkButton
-            string id = btnMas.CommandArgument;
-            // Convierte el ID a entero
-            int idArticulo = int.Parse(id);
-            Articulo articuloExistente = listaProductos.Find(p => p.ID == idArticulo);
-            articuloExistente.Cantidad++;
-        }
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            if (e.CommandName == "Increase" || e.CommandName == "Decrease")
-            {
-                int productId = Convert.ToInt32(e.CommandArgument);
-                // Aquí debes manejar el aumento/disminución en tu fuente de datos.
-                // Actualizaremos directamente el DataTable para este ejemplo.
-
-                foreach (GridViewRow row in dgvProductos.Rows)
-                {
-                    int rowProductId = Convert.ToInt32(dgvProductos.DataKeys[row.RowIndex].Value);
-                    if (rowProductId == productId)
-                    {
-                        Label lblQuantity = row.FindControl("lblQuantity") as Label;
-                        int quantity = int.Parse(lblQuantity.Text);
-
-                        if (e.CommandName == "Increase")
-                        {
-                            quantity++;
-                        }
-                        else if (e.CommandName == "Decrease" && quantity > 1)
-                        {
-                            quantity--;
-                        }
-
-                        // Actualiza la cantidad en la base de datos o fuente de datos aquí.
-
-                        lblQuantity.Text = quantity.ToString();
-                        break;
-                    }
-                }
-            }
-        }
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            // Cambiar el tipo de sender a LinkButton
-            // para poder acceder al CommandArgument del LinkButton
+            // Obtiene el ID del producto COMPLETO a eliminar
             LinkButton btnEliminar = (LinkButton)sender;
+            // Convierte el ID obtenido del CommandArgument a entero
+            int idArticulo = int.Parse(btnEliminar.CommandArgument);
 
-            // Obtiene el ID del producto a eliminar desde el CommandArgument del LinkButton
-            string id = btnEliminar.CommandArgument;
+            // Obtiene la lista de IDs de artículos en el carrito
+            List<int> idArticulosCarrito = Session["Carrito"] as List<int>;
+
+            // Obtiene la cantidad del producto eliminado en el carrito
+            // Contando cuántas veces se repite el ID del producto en la lista
+            // para restar la cantidad del producto eliminado en el navbar
+            int cantidadEliminada = idArticulosCarrito.Count(id => id == idArticulo);
+
+            // Eliminar el producto del carrito
+            idArticulosCarrito.RemoveAll(id => id == idArticulo);
+
+            // Actualizar la lista de IDs de artículos en el carrito en la sesión
+            Session["Carrito"] = idArticulosCarrito;
+
+            // Restar la cantidad del producto eliminado en el navbar
+            Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+            int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+            cantidadActual -= cantidadEliminada; // Restar la cantidad eliminada
+            Session["CantidadCarrito"] = cantidadActual;
+            carritoCantidad.Text = cantidadActual.ToString();
+
+            // Mostrar nuevamente los productos en el carrito
+            if (idArticulosCarrito.Count == 0)
+            {
+                Response.Redirect("Default.aspx", false);
+            }
+            else
+            {
+                MostrarProductosEnCarrito();
+            }
+
+        }
+
+        protected void btnIncrease_Click(object sender, EventArgs e)
+        {
+            // Cambiar el tipo de sender a Button
+            // para poder acceder al CommandArgument del Button
+            Button btnIncrease = (Button)sender;
+
+            // Obtiene el ID del producto a eliminar desde el CommandArgument del Button
+            string id = btnIncrease.CommandArgument;
+            // Convierte el ID a entero
+            int idArticulo = int.Parse(id);
+
+            // Obtiene la lista de IDs de artículos en el carrito
+            // (cantidad de productos en el carrito)
+            List<int> idArticulosCarrito = Session["Carrito"] as List<int>;
+
+            // Agregar el producto al carrito
+            idArticulosCarrito.Add(idArticulo);
+            // Actualizar la lista de IDs de artículos en el carrito en la sesión
+            Session["Carrito"] = idArticulosCarrito;
+
+            /// Mostrar los productos en el carrito
+            // Si no hay productos en el carrito, redirecciona a la página principal
+            if (idArticulosCarrito.Count == 0)
+            {
+                Response.Redirect("Default.aspx", false);
+                // Restar la cantidad de productos en el carrito en el navbar
+                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                cantidadActual++;
+                Session["CantidadCarrito"] = cantidadActual;
+                carritoCantidad.Text = cantidadActual.ToString();
+                //no deberia ir directo a cero CantidadCarrito? si ya el count da cero?
+            }
+            else
+            {
+                MostrarProductosEnCarrito();
+                // Suma la cantidad de productos en el carrito en el navbar
+                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                cantidadActual++;
+                Session["CantidadCarrito"] = cantidadActual;
+                carritoCantidad.Text = cantidadActual.ToString();
+            }
+
+        }
+
+        protected void btnDecrease_Click(object sender, EventArgs e)
+        {
+            // Cambiar el tipo de sender a Button
+            // para poder acceder al CommandArgument del Button (el ID del producto)
+            Button btnDecrease = (Button)sender;
+
+            // Obtiene el ID del producto a eliminar desde el CommandArgument del Button
+            string id = btnDecrease.CommandArgument;
             // Convierte el ID a entero
             int idArticulo = int.Parse(id);
 
@@ -212,7 +250,6 @@ namespace TP_WebForm_Equipo_20
                 Session["CantidadCarrito"] = cantidadActual;
                 carritoCantidad.Text = cantidadActual.ToString();
             }
-
         }
     }
 }

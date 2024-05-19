@@ -27,16 +27,14 @@
             <asp:BoundField DataField="Nombre" HeaderText="Art{iculo" />
             <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
             <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
-            <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
-            <asp:TemplateField HeaderText="Quantity">
+            <asp:TemplateField HeaderText="Cantidad a agregar">
                 <ItemTemplate>
-                    <div class="input-group">
-                        <asp:LinkButton ID="btnDecrease" runat="server" CommandName="Decrease" CommandArgument='<%# Eval("ID") %>' OnClick="btnMenos_Click" CssClass="btn btn-danger" >-</asp:LinkButton>
-                        <asp:Label ID="lblQuantity" runat="server" Text="1" CssClass="form-control text-center" />                         
-                        <asp:LinkButton ID="btnIncrease" runat="server" CommandName="Increase" CommandArgument='<%# Eval("ID") %>' OnClick="btnMas_Click" CssClass="btn btn-success" >+</asp:LinkButton>
-                    </div>
+                    <asp:Button ID="btnIncrease" OnClick="btnIncrease_Click" runat="server" CommandName="Increase" CommandArgument='<%# Eval("ID") %>' Text="+" CssClass="btn btn-success" />
+                    <asp:Label ID="lblCantidad" runat="server" Text='<%# Eval("Cantidad") %>'></asp:Label>
+                    <asp:Button ID="btnDecrease" OnClick="btnDecrease_Click" runat="server" CommandName="Decrease" CommandArgument='<%# Eval("ID") %>' Text="-" CssClass="btn btn-danger" />
                 </ItemTemplate>
-            </asp:TemplateField>                   
+            </asp:TemplateField>
+
             <asp:TemplateField HeaderText="Acciones">
                 <ItemTemplate>
                     <asp:LinkButton ID="btnEliminar" OnClick="btnEliminar_Click" runat="server" CssClass="btn btn-danger" CommandName="Eliminar" CommandArgument='<%# Eval("ID") %>'>Eliminar</asp:LinkButton>
