@@ -12,14 +12,12 @@ namespace TP_WebForm_Equipo_20
 {
     public partial class Productos : System.Web.UI.Page
     {
-        public bool filtroAvanzado { get; set; }
         public List<Articulo> listaProductos { get; set; }
         public List<Imagen> listaImagenes { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                filtroAvanzado = false;
                 lblValidarFiltro.Text = "";
                 //carga del repeater con listado
                 cargarRepeaterCards();
@@ -66,8 +64,7 @@ namespace TP_WebForm_Equipo_20
         {
             try
             {
-                filtroAvanzado = chkFiltroAvanzado.Checked;
-                txtFiltro.Enabled = !filtroAvanzado;
+                txtFiltro.Enabled = !chkFiltroAvanzado.Checked;
             }
             catch (Exception ex)
             {
@@ -124,7 +121,6 @@ namespace TP_WebForm_Equipo_20
         {
             txtFiltro.Text = "";
             txtFiltro.Enabled = true;
-            filtroAvanzado = false;
             lblValidarFiltro.Text = "";
             chkFiltroAvanzado.Checked = false;
             cargarRepeaterCards();
