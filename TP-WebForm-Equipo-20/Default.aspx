@@ -66,8 +66,8 @@
                 <asp:CheckBox ID="chkFiltroAvanzado" Text="Filtro Avanzado" AutoPostBack="true" OnCheckedChanged="chkFiltroAvanzado_CheckedChanged" runat="server" />
             </div>
         </div>
-
         <%if (chkFiltroAvanzado.Checked)
+            //<%if (filtroAvanzado)
             {%>
         <div class="row">
             <div class="col-3">
@@ -101,7 +101,8 @@
         <div class="row">
             <div class="col-3">
                 <div class="mb-3">
-                    <asp:Button ID="btnBuscar" Text="Buscar" runat="server" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />
+                    <asp:Button ID="btnBuscar" Text="Buscar" runat="server" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />             
+                    <asp:Button ID="BtnLimpiarFiltros" Text="Limpiar filtros" runat="server" CssClass="btn btn-primary" OnClick="btnLimpiarFiltro_Click" />
                 </div>
             </div>
         </div>
@@ -114,16 +115,19 @@
                     <div class="card">
                         <div id="carouselExampleControls_<%# Container.ItemIndex %>" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
+                               <%-- <% if(Eval("Imagenes") != null && ((System.Collections.Generic.List<dominio.Imagen>)Eval("Imagenes")).Count > 0) {  %>--%>
                                 <asp:Repeater ID="rptImages" runat="server" DataSource='<%# Eval("Imagenes") %>'>
+                                   
                                     <ItemTemplate>
-                                       <%-- <% listaImagenes= ((List<Imagen>)Eval("Imagenes")) %>--%>
+                                        <%-- <% listaImagenes= ((List<Imagen>)Eval("Imagenes")) %>--%>
                                         <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
                                             <img src='<%# Eval("UrlImagen") %>' class="d-block mx-auto card-img-top" alt="..." onerror="this.onerror=null; this.src='https://img.freepik.com/vector-premium/no-hay-foto-disponible-icono-vector-simbolo-imagen-predeterminado-imagen-proximamente-sitio-web-o-aplicacion-movil_87543-10615.jpg?w=826';">
                                         </div>
                                     </ItemTemplate>
                                 </asp:Repeater>
+                               <%-- <% } %>--%>
                             </div>
-                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="prev">
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_<%# Container.ItemIndex %>" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
@@ -139,7 +143,7 @@
                             <p class="card-text">Marca: <%#Eval("Marca.Descripcion") %></p>
                             <p class="card-text">Categoría: <%#Eval("Categoria.Descripcion") %></p>
                             <p class="card-text">Precio: $<%#Eval("Precio") %></p>
-                            
+
                             <asp:Button ID="btnVerDetalle" CssClass="btn btn-primary" OnClick="btnVerDetalle_Click" CommandArgument='<%# Eval("Id") %>' runat="server" Text="Ver Detalle" />
                             <asp:Button ID="btnAgregarCarrito" CssClass="btn btn-primary" OnClick="btnAgregarCarrito_Click" CommandArgument='<%# Eval("Id") %>' runat="server" Text="Agregar al Carrito" />
                         </div>
