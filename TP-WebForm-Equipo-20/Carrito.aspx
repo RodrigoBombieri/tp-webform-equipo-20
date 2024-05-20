@@ -24,7 +24,7 @@
         CssClass="table" AutoGenerateColumns="false" OnPageIndexChanging="dgvProductos_PageIndexChanging"
         AllowPaging="true" PageSize="5" runat="server">
         <Columns>
-            <asp:BoundField DataField="Nombre" HeaderText="Art{iculo" />
+            <asp:BoundField DataField="Nombre" HeaderText="Artículo" />
             <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
             <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
             <asp:TemplateField HeaderText="Cantidad a agregar">

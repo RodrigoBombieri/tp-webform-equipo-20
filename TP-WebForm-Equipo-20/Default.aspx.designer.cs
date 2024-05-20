@@ -105,6 +105,15 @@ namespace TP_WebForm_Equipo_20
         protected global::System.Web.UI.WebControls.Button btnBuscar;
 
         /// <summary>
+        /// BtnLimpiarFiltros control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnLimpiarFiltros;
+
+        /// <summary>
         /// repRepeater control.
         /// </summary>
         /// <remarks>

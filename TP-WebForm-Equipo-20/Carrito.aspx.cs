@@ -19,34 +19,29 @@ namespace TP_WebForm_Equipo_20
 
             {
                 // Cantidad de articulos en el navbar
-                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
-                int cantidadInicial = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
-                carritoCantidad.Text = cantidadInicial.ToString();
-
-                // Verificar si se está agregando un artículo al carrito
-                string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
-
-                // Si el ID no es nulo y es un número
-                if (!string.IsNullOrEmpty(id) && int.TryParse(id, out int idArticulo))
-                {
-                    // Obtiene la lista de IDs de artículos en el carrito desde la sesión
-                    List<int> idArticulosCarrito = Session["Carrito"] as List<int>;
-                    if (idArticulosCarrito == null)
-                    {
-                        idArticulosCarrito = new List<int>();
-                    }
-
-                    // Agregar el nuevo artículo al carrito
-                    //no deberia èn caso que ya este incrementar cantidad? no lo estaria agregando de nuevo asi?
-                    idArticulosCarrito.Add(idArticulo);
-                    Session["Carrito"] = idArticulosCarrito;
-                }
+                mostrarCantidadNavBar();
 
                 // Mostrar los productos en el carrito
                 MostrarProductosEnCarrito();
             }
         }
 
+        protected void mostrarCantidadNavBar(int cant = 0)
+        {
+            Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
+
+            if (carritoCantidad != null)
+            {
+                // Muestra la cantidad almacenada en la sesión
+                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
+                cantidadActual += cant;
+                carritoCantidad.Text = Convert.ToString(cantidadActual);
+                if (cant != 0)
+                {
+                    Session["CantidadCarrito"] = cantidadActual;
+                }
+            }
+        }
         private void MostrarProductosEnCarrito()
         {
             // Obtener la lista de IDs de artículos en el carrito
@@ -88,14 +83,12 @@ namespace TP_WebForm_Equipo_20
                 // Calcular el precio total
                 precioTotal = listaProductos.Sum(p => p.Precio * p.Cantidad);
                 lblImporte.Text = precioTotal.ToString("C");
-
             }
             else
             {
                 Session.Add("error", "No hay productos en el carrito");
             }
         }
-
 
         protected void dgvProductos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -119,7 +112,7 @@ namespace TP_WebForm_Equipo_20
 
         protected void btnComprar_Click(object sender, EventArgs e)
         {
-            lblCompra.Text = "NO HAY PLATA";
+            lblCompra.Text = "SIN SALDO";
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
@@ -144,11 +137,7 @@ namespace TP_WebForm_Equipo_20
             Session["Carrito"] = idArticulosCarrito;
 
             // Restar la cantidad del producto eliminado en el navbar
-            Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
-            int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
-            cantidadActual -= cantidadEliminada; // Restar la cantidad eliminada
-            Session["CantidadCarrito"] = cantidadActual;
-            carritoCantidad.Text = cantidadActual.ToString();
+            mostrarCantidadNavBar(-(cantidadEliminada));
 
             // Mostrar nuevamente los productos en el carrito
             if (idArticulosCarrito.Count == 0)
@@ -159,53 +148,20 @@ namespace TP_WebForm_Equipo_20
             {
                 MostrarProductosEnCarrito();
             }
-
         }
 
         protected void btnIncrease_Click(object sender, EventArgs e)
         {
-            // Cambiar el tipo de sender a Button
-            // para poder acceder al CommandArgument del Button
             Button btnIncrease = (Button)sender;
-
-            // Obtiene el ID del producto a eliminar desde el CommandArgument del Button
-            string id = btnIncrease.CommandArgument;
-            // Convierte el ID a entero
-            int idArticulo = int.Parse(id);
-
+            int idArticulo = int.Parse(btnIncrease.CommandArgument);
             // Obtiene la lista de IDs de artículos en el carrito
-            // (cantidad de productos en el carrito)
             List<int> idArticulosCarrito = Session["Carrito"] as List<int>;
-
             // Agregar el producto al carrito
             idArticulosCarrito.Add(idArticulo);
             // Actualizar la lista de IDs de artículos en el carrito en la sesión
             Session["Carrito"] = idArticulosCarrito;
-
-            /// Mostrar los productos en el carrito
-            // Si no hay productos en el carrito, redirecciona a la página principal
-            if (idArticulosCarrito.Count == 0)
-            {
-                Response.Redirect("Default.aspx", false);
-                // Restar la cantidad de productos en el carrito en el navbar
-                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
-                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
-                cantidadActual++;
-                Session["CantidadCarrito"] = cantidadActual;
-                carritoCantidad.Text = cantidadActual.ToString();
-                //no deberia ir directo a cero CantidadCarrito? si ya el count da cero?
-            }
-            else
-            {
-                MostrarProductosEnCarrito();
-                // Suma la cantidad de productos en el carrito en el navbar
-                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
-                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
-                cantidadActual++;
-                Session["CantidadCarrito"] = cantidadActual;
-                carritoCantidad.Text = cantidadActual.ToString();
-            }
-
+            mostrarCantidadNavBar(1);
+            MostrarProductosEnCarrito();
         }
 
         protected void btnDecrease_Click(object sender, EventArgs e)
@@ -213,11 +169,8 @@ namespace TP_WebForm_Equipo_20
             // Cambiar el tipo de sender a Button
             // para poder acceder al CommandArgument del Button (el ID del producto)
             Button btnDecrease = (Button)sender;
-
             // Obtiene el ID del producto a eliminar desde el CommandArgument del Button
-            string id = btnDecrease.CommandArgument;
-            // Convierte el ID a entero
-            int idArticulo = int.Parse(id);
+            int idArticulo = int.Parse(btnDecrease.CommandArgument);
 
             // Obtiene la lista de IDs de artículos en el carrito
             List<int> idArticulosCarrito = Session["Carrito"] as List<int>;
@@ -231,24 +184,15 @@ namespace TP_WebForm_Equipo_20
             // Si no hay productos en el carrito, redirecciona a la página principal
             if (idArticulosCarrito.Count == 0)
             {
+                mostrarCantidadNavBar(-1);
                 Response.Redirect("Default.aspx", false);
                 // Restar la cantidad de productos en el carrito en el navbar
-                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
-                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
-                cantidadActual--;
-                Session["CantidadCarrito"] = cantidadActual;
-                carritoCantidad.Text = cantidadActual.ToString();
-                //no deberia ir directo a cero CantidadCarrito? si ya el count da cero?
             }
             else
             {
+                mostrarCantidadNavBar(-1);
                 MostrarProductosEnCarrito();
                 // Restar la cantidad de productos en el carrito en el navbar
-                Literal carritoCantidad = Master.FindControl("carritoCantidad") as Literal;
-                int cantidadActual = Convert.ToInt32(Session["CantidadCarrito"] ?? "0");
-                cantidadActual--;
-                Session["CantidadCarrito"] = cantidadActual;
-                carritoCantidad.Text = cantidadActual.ToString();
             }
         }
     }
